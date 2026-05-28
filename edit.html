@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Panel | Oneness Cafe</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#111;
+  color:#fff;
+  min-height:100vh;
+  padding:40px 20px;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+}
+
+h1{
+  margin-bottom:25px;
+  text-align:center;
+}
+
+.card{
+  background:#1c1c1c;
+  padding:25px;
+  border-radius:20px;
+  margin-bottom:25px;
+}
+
+.field{
+  margin-bottom:20px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:8px;
+  font-size:14px;
+}
+
+.field input,
+.field textarea{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#2b2b2b;
+  color:#fff;
+  font-size:15px;
+}
+
+.field textarea{
+  resize:none;
+  height:120px;
+}
+
+.toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:20px;
+}
+
+button{
+  border:none;
+  background:#ffb347;
+  color:#111;
+  padding:14px 24px;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  width:100%;
+  margin-top:20px;
+}
+
+.status{
+  margin-top:15px;
+  text-align:center;
+  color:#90ee90;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>
+    ☕ Oneness Cafe Admin
+  </h1>
+
+  <div class="card">
+
+    <div class="field">
+
+      <label>
+        Offer Title
+      </label>
+
+      <input
+        type="text"
+        id="offerTitle"
+        placeholder="Today's Special"
+      >
+
+    </div>
+
+    <div class="field">
+
+      <label>
+        Offer Message
+      </label>
+
+      <textarea
+        id="offerMessage"
+        placeholder="Write offer here..."
+      ></textarea>
+
+    </div>
+    <div class="field">
+
+  <label>
+    WiFi Password
+  </label>
+
+  <input
+    type="text"
+    id="wifiPassword"
+    placeholder="Enter WiFi Password"
+  >
+
+</div>
+
+    <div class="toggle-row">
+
+      <span>
+        Show Offer Section
+      </span>
+
+      <input
+        type="checkbox"
+        id="offerToggle"
+      >
+
+    </div>
+
+    <button id="saveBtn">
+      Save Changes
+    </button>
+
+   <a href="index.html" style="color:white" text-align="center" justify-content="center" display="block" margin-top="20px">
+  Back to Home
+</a>
+    <div class="status" id="status"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+    const wifiPassword =
+  document.getElementById(
+    "wifiPassword"
+  );
+
+// ===== PASSWORD =====
+const ADMIN_PASSWORD = "abhiwarulepatil";
+
+// ===== AUTH =====
+const password =
+  prompt("Enter Admin Password");
+
+if(password !== ADMIN_PASSWORD){
+
+  alert("Wrong Password");
+
+  window.location.href =
+    "index.html";
+
+}
+
+// ===== ELEMENTS =====
+const offerTitle =
+  document.getElementById("offerTitle");
+
+const offerMessage =
+  document.getElementById("offerMessage");
+
+const offerToggle =
+  document.getElementById("offerToggle");
+
+const status =
+  document.getElementById("status");
+
+// ===== LOAD SAVED DATA =====
+
+ wifiPassword.value =
+  localStorage.getItem(
+    "wifiPassword"
+  ) || "oneness@123";
+offerTitle.value =
+  localStorage.getItem("offerTitle")
+  || "TODAY'S SPECIAL";
+
+
+
+offerMessage.value =
+  localStorage.getItem("offerMessage")
+  || "Buy 2 Cold Coffees & Get Fries Free ☕";
+
+offerToggle.checked =
+  localStorage.getItem("offerEnabled")
+  === "true";
+
+ 
+
+// ===== SAVE =====
+document
+  .getElementById("saveBtn")
+  .addEventListener("click", () => {
+
+    localStorage.setItem(
+      "offerTitle",
+      offerTitle.value
+    );
+
+    localStorage.setItem(
+      "offerMessage",
+      offerMessage.value
+    );
+
+    localStorage.setItem(
+      "offerEnabled",
+      offerToggle.checked
+    );
+
+    localStorage.setItem(
+  "wifiPassword",
+  wifiPassword.value
+);
+
+    
+    status.innerText =
+      "Changes Saved Successfully ✅";
+
+    setTimeout(() => {
+
+      status.innerText = "";
+
+    }, 1000);
+
+});
+
+
+
+</script>
+
+</body>
+</html>

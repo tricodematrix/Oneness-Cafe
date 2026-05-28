@@ -1066,3 +1066,73 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
 // ----- Year -----
 document.getElementById("year").textContent = new Date().getFullYear();
+
+
+
+
+// ===== OFFER SECTION =====
+
+const offerBar =
+  document.getElementById(
+    "specialOfferBar"
+  );
+
+const offerTitleText =
+  document.getElementById(
+    "offerTitleText"
+  );
+
+const offerMessageText =
+  document.getElementById(
+    "offerMessageText"
+  );
+
+const enabled =
+  localStorage.getItem(
+    "offerEnabled"
+  );
+
+if(enabled === "true"){
+
+  offerBar.style.display =
+    "block";
+
+  offerTitleText.innerText =
+    localStorage.getItem(
+      "offerTitle"
+    );
+
+  offerMessageText.innerText =
+    localStorage.getItem(
+      "offerMessage"
+    );
+
+}
+else{
+
+  offerBar.style.display =
+    "none";
+
+}
+
+
+// ===== WIFI PASSWORD =====
+
+const wifiPasswordText =
+  document.getElementById(
+    "wifiPasswordText"
+  );
+
+const savedWifiPassword =
+  localStorage.getItem(
+    "wifiPassword"
+  );
+
+if(savedWifiPassword){
+
+  wifiPasswordText.innerText =
+    `Password : ${savedWifiPassword}`;
+
+}
+
+
