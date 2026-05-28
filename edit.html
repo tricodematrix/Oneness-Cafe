@@ -144,6 +144,19 @@ button{
   >
 
 </div>
+<div class="field">
+
+  <label>
+    Cafe Timing
+  </label>
+
+  <input
+    type="text"
+    id="cafeTimingInput"
+    placeholder="9:00 AM - 11:00 PM"
+  >
+
+</div>
 
     <div class="toggle-row">
 
@@ -171,17 +184,50 @@ button{
 
 </div>
 
-<script>
+```html
+<script type="module">
 
-    const wifiPassword =
-  document.getElementById(
-    "wifiPassword"
-  );
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+
+  apiKey: "AIzaSyBnVEXOzyW4OZif2IHOSwaoZy-CL9HN3Jw",
+
+  authDomain: "oneness-cafe.firebaseapp.com",
+
+  projectId: "oneness-cafe",
+
+  storageBucket: "oneness-cafe.firebasestorage.app",
+
+  messagingSenderId: "983934697294",
+
+  appId: "1:983934697294:web:953cf45b43e4f74853281f",
+
+  measurementId: "G-B1BNV4NC8P"
+
+};
+
+// ===== INIT =====
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
 
 // ===== PASSWORD =====
-const ADMIN_PASSWORD = "abhiwarulepatil";
+const ADMIN_PASSWORD =
+  "abhiwarulepatil";
 
-// ===== AUTH =====
 const password =
   prompt("Enter Admin Password");
 
@@ -204,57 +250,91 @@ const offerMessage =
 const offerToggle =
   document.getElementById("offerToggle");
 
+const wifiPassword =
+  document.getElementById("wifiPassword");
+
+const cafeTimingInput =
+  document.getElementById("cafeTimingInput");
+
 const status =
   document.getElementById("status");
 
-// ===== LOAD SAVED DATA =====
+// ===== LOAD DATA =====
+async function loadData(){
 
- wifiPassword.value =
-  localStorage.getItem(
-    "wifiPassword"
-  ) || "oneness@123";
-offerTitle.value =
-  localStorage.getItem("offerTitle")
-  || "TODAY'S SPECIAL";
+  try{
 
+    const docRef =
+      doc(db, "settings", "cafe");
 
+    const docSnap =
+      await getDoc(docRef);
 
-offerMessage.value =
-  localStorage.getItem("offerMessage")
-  || "Buy 2 Cold Coffees & Get Fries Free ☕";
+    if(docSnap.exists()){
 
-offerToggle.checked =
-  localStorage.getItem("offerEnabled")
-  === "true";
+      const data =
+        docSnap.data();
 
- 
+      offerTitle.value =
+        data.offerTitle || "";
+
+      offerMessage.value =
+        data.offerMessage || "";
+
+      offerToggle.checked =
+        data.offerEnabled || false;
+
+      wifiPassword.value =
+        data.wifiPassword || "";
+
+      cafeTimingInput.value =
+        data.cafeTiming || "";
+
+    }
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert("Firebase Load Error");
+
+  }
+
+}
+
+loadData();
 
 // ===== SAVE =====
 document
   .getElementById("saveBtn")
-  .addEventListener("click", () => {
+  .addEventListener("click",
+async () => {
 
-    localStorage.setItem(
-      "offerTitle",
-      offerTitle.value
+  try{
+
+    await setDoc(
+      doc(db, "settings", "cafe"),
+      {
+
+        offerTitle:
+          offerTitle.value,
+
+        offerMessage:
+          offerMessage.value,
+
+        offerEnabled:
+          offerToggle.checked,
+
+        wifiPassword:
+          wifiPassword.value,
+
+        cafeTiming:
+          cafeTimingInput.value
+
+      }
     );
 
-    localStorage.setItem(
-      "offerMessage",
-      offerMessage.value
-    );
-
-    localStorage.setItem(
-      "offerEnabled",
-      offerToggle.checked
-    );
-
-    localStorage.setItem(
-  "wifiPassword",
-  wifiPassword.value
-);
-
-    
     status.innerText =
       "Changes Saved Successfully ✅";
 
@@ -262,13 +342,18 @@ document
 
       status.innerText = "";
 
-    }, 1000);
+    }, 2000);
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    alert("Firebase Save Error");
+
+  }
 
 });
 
-
-
 </script>
-
-</body>
-</html>
+```

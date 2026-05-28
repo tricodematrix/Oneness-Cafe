@@ -1115,7 +1115,6 @@ else{
 
 }
 
-
 // ===== WIFI PASSWORD =====
 
 const wifiPasswordText =
