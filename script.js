@@ -1,5 +1,5 @@
 // ============ Oneness Cafe ============
-const WHATSAPP_NUMBER = "919370600985"; // replace with cafe number
+const WHATSAPP_NUMBER = "917477770304"; // replace with cafe number
 
 const CATEGORIES = [
   "Pizza",
